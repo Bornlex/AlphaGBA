@@ -10,11 +10,14 @@ int main(void)
   
   volatile uint16 *paddle_tile_mem = (uint16 *) tile_mem[4][1];
   volatile uint16 *ball_tile_mem   = (uint16 *) tile_mem[4][5];
+  volatile uint16 *digit_tile_mem  = (uint16 *) tile_mem[4][6];
 
   for (int i = 0; i < 4 * (sizeof(tile_4bpp) / 2); ++i)
     paddle_tile_mem[i] = 0x1111;
   for (int i = 0; i < (sizeof(tile_4bpp) / 2); ++i)
     ball_tile_mem[i] = 0x2222;
+  for (int i = 0; i < (sizeof(tile_4bpp) / 2); ++i)
+    digit_tile_mem[i] = 0x1111;
 
   //write the colour palette for our sprites into the first palette of 16 colours in memory
   object_palette_mem[1] = RGB15(0x1f, 0x1f, 0x1f);
@@ -31,10 +34,17 @@ int main(void)
   ball_attrs->attr1 = 0; //8x8 size
   ball_attrs->attr2 = 5;
 
+  volatile obj_attrs *digit_attrs = &oam_mem[2];
+  digit_attrs->attr0 = 0;
+  digit_attrs->attr1 = 0;
+  digit_attrs->attr2 = 1;
+
   const int player_width = 8;
   const int player_height = 32;
   const int ball_width = 8;
   const int ball_height = 8;
+  const int digit_height = 8;
+  const int digit_width = 2;
 
   int player_velocity = 2;
   int ball_velocity_x = 2;
@@ -43,8 +53,11 @@ int main(void)
   int player_y = 96;
   int ball_x = 22;
   int ball_y = 96;
+  int digit_x = 200;
+  int digit_y = 140;
   set_object_position(paddle_attrs, player_x, player_y);
   set_object_position(ball_attrs, ball_x, ball_y);
+  set_object_position(digit_attrs, digit_x, digit_y);
   int player_max_clamp_y = SCREEN_HEIGHT - player_height;
 
   //set the display parameter to enable objects and use a 1d object->tile mapping

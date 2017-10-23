@@ -40,6 +40,7 @@ typedef struct obj_attrs {
 
 typedef uint32    tile_4bpp[8];
 typedef tile_4bpp tile_block[512];
+typedef tile_4bpp tile_digit[10];
 
 //?BBBBBGGGGGRRRRR
 static inline rgb15 RGB15(int r, int g, int b)
